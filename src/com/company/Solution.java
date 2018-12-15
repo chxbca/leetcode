@@ -73,8 +73,9 @@ class Solution {
                 lastIndex = i;
             }
         }
+        int max = lastIndex;
         lastIndex = height.length - 1;
-        for (int min = lastIndex, i = lastIndex; i >= min; i--) {
+        for (int i = lastIndex; i >= max; i--) {
             if (height[i] > height[lastIndex]) {
                 sum += trap(height, i, lastIndex);
                 lastIndex = i;
