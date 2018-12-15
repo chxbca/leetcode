@@ -2,8 +2,6 @@ package com.company;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 class Solution {
     /**
@@ -45,13 +43,12 @@ class Solution {
      * @return
      */
     public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> map = IntStream.range(0, nums.length).parallel().boxed().
-                collect(Collectors.toMap(i -> nums[i], i -> i, (a, b) -> b, () -> new HashMap<>(nums.length)));
+        Map<Integer, Integer> map = new HashMap<>(2048);
         for (int i = 0; i < nums.length; i++) {
-            Integer j = map.get(target - nums[i]);
-            if (j != null && i != j) {
-                return new int[]{i, j};
+            if (map.containsKey(target - nums[i])) {
+                return new int[]{map.get(target - nums[i]), i};
             }
+            map.put(nums[i], i);
         }
         return null;
     }
