@@ -162,6 +162,51 @@ class Solution {
         return answer;
     }
 
+    /**
+     * 给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
+     * <p>
+     * 请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+     * <p>
+     * 你可以假设 nums1 和 nums2 不会同时为空。
+     * <p>
+     * 示例 1:
+     * <p>
+     * nums1 = [1, 3]
+     * nums2 = [2]
+     * <p>
+     * 则中位数是 2.0
+     * 示例 2:
+     * <p>
+     * nums1 = [1, 2]
+     * nums2 = [3, 4]
+     * <p>
+     * 则中位数是 (2 + 3)/2 = 2.5
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/median-of-two-sorted-arrays
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int length = nums1.length + nums2.length;
+        boolean isEvenNum = length % 2 == 0;
+        int arrLen = length / 2 + 1;
+        int[] ints = new int[arrLen];
+        for (int i = 0, j = 0, k = 0; i < arrLen; i++) {
+            if (j == nums1.length) {
+                ints[i] = nums2[k++];
+            } else if (k == nums2.length) {
+                ints[i] = nums1[j++];
+            } else {
+                ints[i] = nums1[j] < nums2[k] ? nums1[j++] : nums2[k++];
+            }
+        }
+        return isEvenNum ? (ints[arrLen - 1] + ints[arrLen - 2]) / 2.0 : ints[arrLen - 1];
+    }
+
 
     /**
      * 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的 两个 整数。
