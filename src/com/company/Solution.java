@@ -360,4 +360,66 @@ class Solution {
         }
         return ans == num;
     }
+
+    /**
+     * 请判断一个链表是否为回文链表。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: 1->2
+     * 输出: false
+     * 示例 2:
+     * <p>
+     * 输入: 1->2->2->1
+     * 输出: true
+     * 进阶：
+     * 你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/palindrome-linked-list
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * <p>
+     * 1 2 3 4 5
+     * 1 2 3 4
+     *
+     * @param head
+     * @return
+     */
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+        //快慢指针找到链表的中点
+        ListNode fast = head.next.next;
+        ListNode slow = head.next;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+
+        //翻转链表前半部分
+        ListNode pre = null;
+        while (head != slow) {
+            ListNode next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        //如果是奇数个节点，去掉后半部分的第一个节点。
+
+        if (fast != null) {
+            slow = slow.next;
+        }
+        //回文校验
+        while (pre != null) {
+            if (pre.val != slow.val) {
+                return false;
+            }
+            pre = pre.next;
+            slow = slow.next;
+        }
+
+        return true;
+
+    }
 }
