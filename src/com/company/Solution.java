@@ -43,7 +43,8 @@ class Solution {
     }
 
     /**
-     * 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+     * 给出两个 非空 的链表用来表示两个非负的整数。
+     * 其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
      * <p>
      * 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
      * <p>
@@ -421,5 +422,53 @@ class Solution {
 
         return true;
 
+    }
+
+    /**
+     * 在英语中，我们有一个叫做 词根(root)的概念。
+     * 它可以跟着其他一些词组成另一个较长的单词——我们称这个词为 继承词(successor)。
+     * 例如，词根an，跟随着单词 other(其他)，可以形成新的单词 another(另一个)。
+     * <p>
+     * 现在，给定一个由许多词根组成的词典和一个句子。你需要将句子中的所有继承词用词根替换掉。
+     * 如果继承词有许多可以形成它的词根，则用最短的词根替换它。
+     * <p>
+     * 你需要输出替换之后的句子。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: dict(词典) = ["cat", "bat", "rat"]
+     * sentence(句子) = "the cattle was rattled by the battery"
+     * 输出: "the cat was rat by the bat"
+     * 注:
+     * <p>
+     * 输入只包含小写字母。
+     * 1 <= 字典单词数 <=1000
+     * 1 <=  句中词语数 <= 1000
+     * 1 <= 词根长度 <= 100
+     * 1 <= 句中词语长度 <= 1000
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/replace-words
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * @param dict
+     * @param sentence
+     * @return
+     */
+    public String replaceWords(List<String> dict, String sentence) {
+        String[] split = sentence.split(" ");
+        for (int i = 0; i < split.length; i++) {
+            for (String s : dict) {
+                if (split[i].indexOf(s) == 0) {
+                    split[i] = s;
+                    break;
+                }
+            }
+        }
+        StringBuilder ans = new StringBuilder();
+        for (String s : split) {
+            ans.append(s).append(" ");
+        }
+        return ans.substring(0, ans.length() - 1);
     }
 }
