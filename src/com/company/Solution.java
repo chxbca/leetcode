@@ -691,18 +691,16 @@ class Solution {
      * @return
      */
     public int maxRotateFunction(int[] A) {
-        int length = A.length;
-        if(length == 0){
-            return 0;
+        int max = 0;
+        int sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            max += i * A[i];
+            sum += A[i];
         }
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < length; i++) {
-            max = Math.max(rotateFunction(A, i), max);
+        for (int length = A.length, num = max, i = length - 1; i >= 1; i--) {
+            num = num + sum - A[i] * length;
+            max = Math.max(max, num);
         }
         return max;
-    }
-
-    private int rotateFunction(int[] A, int k) {
-        return IntStream.range(0, A.length).map(i -> i * A[(i + k) % A.length]).sum();
     }
 }
