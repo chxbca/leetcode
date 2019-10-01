@@ -553,7 +553,9 @@ class Solution {
     }
 
     /**
-     * 包含整数的二维矩阵 M 表示一个图片的灰度。你需要设计一个平滑器来让每一个单元的灰度成为平均灰度 (向下舍入) ，平均灰度的计算是周围的8个单元和它本身的值求平均，如果周围的单元格不足八个，则尽可能多的利用它们。
+     * 包含整数的二维矩阵 M 表示一个图片的灰度。
+     * 你需要设计一个平滑器来让每一个单元的灰度成为平均灰度 (向下舍入)
+     * 平均灰度的计算是周围的8个单元和它本身的值求平均，如果周围的单元格不足八个，则尽可能多的利用它们。
      * <p>
      * 示例 1:
      * <p>
@@ -635,7 +637,8 @@ class Solution {
 
 
     /**
-     * 给定长度为 2n 的数组, 你的任务是将这些数分成 n 对, 例如 (a1, b1), (a2, b2), ..., (an, bn) ，使得从1 到 n 的 min(ai, bi) 总和最大。
+     * 给定长度为 2n 的数组, 你的任务是将这些数分成 n 对
+     * 例如 (a1, b1), (a2, b2), ..., (an, bn) ，使得从1 到 n 的 min(ai, bi) 总和最大。
      * <p>
      * 示例 1:
      * <p>
@@ -702,5 +705,55 @@ class Solution {
             max = Math.max(max, num);
         }
         return max;
+    }
+
+    /**
+     * 给定长度为 n 的整数数组 nums，其中 n > 1，返回输出数组 output
+     * 其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。
+     * <p>
+     * 示例:
+     * <p>
+     * 输入: [1,2,3,4]
+     * 输出: [24,12,8,6]
+     * 说明: 请不要使用除法，且在 O(n) 时间复杂度内完成此题。
+     * <p>
+     * 进阶：
+     * 你可以在常数空间复杂度内完成这个题目吗？（ 出于对空间复杂度分析的目的，输出数组不被视为额外空间。）
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/product-of-array-except-self
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * @param nums
+     * @return
+     */
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int left = 1, right = 1;
+        int[] res = new int[n];
+        Arrays.fill(res, 1);
+        for (int i = 0; i < n; ++i) {
+            res[i] *= left;
+            left *= nums[i];
+            res[n - 1 - i] *= right;
+            right *= nums[n - 1 - i];
+        }
+        return res;
+//        int length = nums.length;
+//        int[] left = new int[length];
+//        int[] right = new int[length];
+//        left[0] = 1;
+//        right[length - 1] = 1;
+//        for (int i = 1; i < left.length; i++) {
+//            left[i] = nums[i - 1] * left[i - 1];
+//        }
+//        for (int i = right.length - 2; i >= 0; i--) {
+//            right[i] = nums[i + 1] * right[i + 1];
+//        }
+//        int[] ans = new int[length];
+//        for (int i = 0; i < length; i++) {
+//            ans[i] = left[i] * right[i];
+//        }
+//        return ans;
     }
 }
