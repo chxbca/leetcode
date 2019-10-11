@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author chxbca
@@ -8,8 +9,8 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] a = {1, 2, 3, 4};
-        int[] ans = solution.productExceptSelf(a);
-        System.out.println(Arrays.toString(ans));
+        System.out.println(solution.minCostToMoveChips(new int[]{
+                2, 2, 2, 3, 3
+        }));
     }
 }
