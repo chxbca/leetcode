@@ -740,6 +740,7 @@ class Solution {
         }
         return res;
     }
+
     /**
      * 数轴上放置了一些筹码，每个筹码的位置存在数组 chips 当中。
      * <p>
@@ -768,5 +769,67 @@ class Solution {
             }
         }
         return Math.min(odd, even);
+    }
+
+    /**
+     * 将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。
+     * <p>
+     * 比如输入字符串为 "LEETCODEISHIRING" 行数为 3 时，排列如下：
+     * <p>
+     * L   C   I   R
+     * E T O E S I I G
+     * E   D   H   N
+     * 之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如："LCIRETOESIIGEDHN"。
+     * <p>
+     * 请你实现这个将字符串进行指定行数变换的函数：
+     * <p>
+     * string convert(string s, int numRows);
+     * 示例 1:
+     * <p>
+     * 输入: s = "LEETCODEISHIRING", numRows = 3
+     * 输出: "LCIRETOESIIGEDHN"
+     * 示例 2:
+     * <p>
+     * 输入: s = "LEETCODEISHIRING", numRows = 4
+     * 输出: "LDREOEIIECIHNTSG"
+     * 解释:
+     * <p>
+     * L     D     R     0     6       12
+     * E   O E   I I     1   5 7    11 13
+     * E C   I H   N     2 4   8 10    14
+     * T     S     G     3     9       15
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/zigzag-conversion
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * @param s
+     * @param numRows
+     * @return
+     */
+    public String convert(String s, int numRows) {
+        if (numRows == 1) {
+            return s;
+        }
+        StringBuilder ans = new StringBuilder();
+        int step = (numRows - 1 << 1);
+        int len = s.length();
+        for (int i = 0; i < len; i += step) {
+            ans.append(s.charAt(i));
+        }
+        for (int i = 1; i < numRows - 1; i++) {
+            for (int k = i, j = step - k; k < len || j < len; k += step, j += step) {
+                if (k < len) {
+                    ans.append(s.charAt(k));
+                }
+                if (j < len) {
+                    ans.append(s.charAt(j));
+                }
+            }
+        }
+        for (int i = numRows - 1; i < len; i += step) {
+            ans.append(s.charAt(i));
+        }
+        return ans.toString();
     }
 }

@@ -1,7 +1,6 @@
 package com.company;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Objects;
 
 /**
  * @author chxbca
@@ -9,8 +8,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.minCostToMoveChips(new int[]{
-                2, 2, 2, 3, 3
-        }));
+        String convert = solution.convert("AB", 1);
+        System.out.println(Objects.equals(convert, "AB"));
     }
 }
