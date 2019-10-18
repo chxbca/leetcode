@@ -811,25 +811,19 @@ class Solution {
         if (numRows == 1) {
             return s;
         }
-        StringBuilder ans = new StringBuilder();
-        int step = (numRows - 1 << 1);
+        int step = (numRows - 1) << 1;
         int len = s.length();
-        for (int i = 0; i < len; i += step) {
-            ans.append(s.charAt(i));
-        }
-        for (int i = 1; i < numRows - 1; i++) {
-            for (int k = i, j = step - k; k < len || j < len; k += step, j += step) {
-                if (k < len) {
-                    ans.append(s.charAt(k));
-                }
-                if (j < len) {
-                    ans.append(s.charAt(j));
+        char[] ans = new char[len];
+        char[] chars = s.toCharArray();
+        int index = -1;
+        for (int i = 0; i < numRows; i++) {
+            for (int j = i; j < len; j += step) {
+                ans[++index] = chars[j];
+                if (i != 0 && i != numRows - 1 && step - (i << 1) + j < len) {
+                    ans[++index] = chars[step - (i << 1) + j];
                 }
             }
         }
-        for (int i = numRows - 1; i < len; i += step) {
-            ans.append(s.charAt(i));
-        }
-        return ans.toString();
+        return new String(ans);
     }
 }

@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Main {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        String convert = solution.convert("AB", 1);
-        System.out.println(Objects.equals(convert, "AB"));
+        String convert = solution.convert("LEETCODEISHIRING", 4);
+        System.out.println(Objects.equals(convert, "LDREOEIIECIHNTSG"));
     }
 }
