@@ -826,4 +826,56 @@ class Solution {
         }
         return new String(ans);
     }
+
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     * int val;
+     * TreeNode left;
+     * TreeNode right;
+     * TreeNode(int x) { val = x; }
+     * }
+     * <p>
+     * https://leetcode-cn.com/problems/binary-tree-paths/
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        Stack<Integer> stack = new Stack<>();
+        List<String> result = new ArrayList<>();
+        if (root != null) {
+            scanningNode(root, stack, result);
+        }
+        return result;
+    }
+
+    private void scanningNode(TreeNode node, Stack<Integer> stack, List<String> result) {
+        stack.push(node.val);
+        if (node.left == null && node.right == null) {
+            Object[] objects = stack.toArray();
+            StringBuilder rs = new StringBuilder(objects[0].toString());
+            for (int i = 1; i < objects.length; i++) {
+                rs.append("->").append(objects[i]);
+            }
+            result.add(rs.toString());
+        } else {
+            if (node.left != null) {
+                scanningNode(node.left, stack, result);
+            }
+            if (node.right != null) {
+                scanningNode(node.right, stack, result);
+            }
+        }
+        stack.pop();
+    }
+
+
 }
