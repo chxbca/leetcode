@@ -1,19 +1,18 @@
 package com.company;
 
-import java.util.List;
-
 /**
  * @author chxbca
  */
 public class Main {
     public static void main(String[] args) {
-        Solution.TreeNode node = new Solution.TreeNode(1);
-        node.left = new Solution.TreeNode(2);
-        node.right = new Solution.TreeNode(3);
-        node.left.right = new Solution.TreeNode(5);
-
         Solution solution = new Solution();
-        List<String> list = solution.binaryTreePaths(node);
-        System.out.println(list);
+        int n = 9, k = 16;
+        for (int i = 1; i <= k; i++) {
+            String permutation = solution.getPermutation(n, i);
+            System.out.println(permutation);
+        }
     }
+
+
+
 }

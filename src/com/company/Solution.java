@@ -877,5 +877,36 @@ class Solution {
         stack.pop();
     }
 
+    /**
+     * #60
+     * 第k个排列
+     * https://leetcode-cn.com/problems/permutation-sequence/
+     */
+    public String getPermutation(int n, int k) {
+        char[] arr = new char[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = (char) ('0' + i + 1);
+        }
+        int batch = 1;
+        for (int i1 = 1; i1 < n; i1++) {
+            batch = batch * i1;
+        }
+        for (int i = 0; i < n - 1; i++) {
+            int index = (k - 1) / batch;
+            int moveIndex = index + i;
+            move(arr, i, moveIndex);
+            int nextK = k % batch;
+            k = (nextK == 0 ? batch : nextK);
+            batch = batch / (n - 1 - i);
+        }
+        return new String(arr);
+    }
+
+    private static void move(char[] arr, int i, int j) {
+        char n = arr[j];
+        System.arraycopy(arr, i, arr, i + 1, j - i);
+        arr[i] = n;
+    }
+
 
 }
