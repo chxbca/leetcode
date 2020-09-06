@@ -908,5 +908,29 @@ class Solution {
         arr[i] = n;
     }
 
+    /**
+     * 107. 二叉树的层次遍历 II
+     * https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/
+     *
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        addByDeep(map, 0, root);
+        List<List<Integer>> result = new ArrayList<>(map.values());
+        Collections.reverse(result);
+        return result;
+    }
+
+    private void addByDeep(Map<Integer, List<Integer>> map, int deep, TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        List<Integer> list = map.computeIfAbsent(deep, k -> new LinkedList<>());
+        list.add(root.val);
+        addByDeep(map, ++deep, root.left);
+        addByDeep(map, deep, root.right);
+    }
 
 }
