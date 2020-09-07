@@ -923,14 +923,44 @@ class Solution {
         return result;
     }
 
+    /**
+     * 347. 前 K 个高频元素
+     * https://leetcode-cn.com/problems/top-k-frequent-elements/submissions/
+     *
+     * @param map
+     * @param deep
+     * @param root
+     */
     private void addByDeep(Map<Integer, List<Integer>> map, int deep, TreeNode root) {
         if (root == null) {
             return;
         }
-        List<Integer> list = map.computeIfAbsent(deep, k -> new LinkedList<>());
-        list.add(root.val);
-        addByDeep(map, ++deep, root.left);
-        addByDeep(map, deep, root.right);
+        map.computeIfAbsent(deep, k -> new LinkedList<>()).add(root.val);
+        addByDeep(map, deep + 1, root.left);
+        addByDeep(map, deep + 1, root.right);
     }
 
+
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> numberCountMap = new HashMap<>();
+        for (int num : nums) {
+            Integer integer = num;
+            numberCountMap.merge(integer, 1, Integer::sum);
+        }
+        List<Integer> toSort = new ArrayList<>(numberCountMap.values());
+        Collections.sort(toSort);
+        Set<Integer> collect = new HashSet<>();
+        int size = toSort.size() - k;
+        for (int i = toSort.size() - 1; i >= size; i--) {
+            collect.add(toSort.get(i));
+        }
+        int[] rs = new int[k];
+        int count = 0;
+        for (Map.Entry<Integer, Integer> entry : numberCountMap.entrySet()) {
+            if (collect.contains(entry.getValue())) {
+                rs[count++] = entry.getKey();
+            }
+        }
+        return rs;
+    }
 }
