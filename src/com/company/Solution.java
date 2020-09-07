@@ -923,14 +923,6 @@ class Solution {
         return result;
     }
 
-    /**
-     * 347. 前 K 个高频元素
-     * https://leetcode-cn.com/problems/top-k-frequent-elements/submissions/
-     *
-     * @param map
-     * @param deep
-     * @param root
-     */
     private void addByDeep(Map<Integer, List<Integer>> map, int deep, TreeNode root) {
         if (root == null) {
             return;
@@ -940,7 +932,13 @@ class Solution {
         addByDeep(map, deep + 1, root.right);
     }
 
-
+    /**
+     * 347. 前 K 个高频元素
+     * https://leetcode-cn.com/problems/top-k-frequent-elements/submissions/
+     *
+     * @param k
+     * @param nums
+     */
     public int[] topKFrequent(int[] nums, int k) {
         Map<Integer, Integer> numberCountMap = new HashMap<>();
         for (int num : nums) {
