@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 class Solution {
@@ -961,4 +962,143 @@ class Solution {
         }
         return rs;
     }
+
+    /**
+     * https://leetcode-cn.com/problems/combinations/
+     *
+     * @param n
+     * @param k
+     * @return
+     */
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        int length = n - k + 1;
+        for (int i = 1; i <= length; i++) {
+            List<Integer> list = new ArrayList<>();
+            deep(list, i, k - 1, n, result);
+        }
+        return result;
+    }
+
+    private void deep(List<Integer> list, int startNum, int deep, int endNum, List<List<Integer>> result) {
+        list.add(startNum);
+        if (deep == 0) {
+            result.add(list);
+            return;
+        }
+        for (int i = startNum + 1; i <= endNum; i++) {
+            deep(new ArrayList<>(list), i, deep - 1, endNum, result);
+        }
+    }
+
+    /**
+     * https://leetcode-cn.com/problems/combination-sum/
+     *
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        Set<List<Integer>> result = new HashSet<>();
+        for (int candidate : candidates) {
+            List<Integer> list = new ArrayList<>();
+            list.add(candidate);
+            sumNum(candidates, target - candidate, list, result);
+        }
+        return new ArrayList<>(result);
+    }
+
+    private void sumNum(int[] candidates, int target, List<Integer> list, Set<List<Integer>> result) {
+        if (target == 0) {
+            Collections.sort(list);
+            result.add(list);
+            return;
+        }
+        if (target < candidates[0]) {
+            return;
+        }
+        for (int candidate : candidates) {
+            List<Integer> newList = new ArrayList<>(list);
+            newList.add(candidate);
+            sumNum(candidates, target - candidate, newList, result);
+        }
+    }
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<Integer> arrayList = Arrays.stream(candidates).boxed().sorted().collect(Collectors.toList());
+        Set<List<Integer>> result = new HashSet<>();
+        for (int candidate : candidates) {
+            List<Integer> list = new ArrayList<>();
+            List<Integer> candidatesList = new ArrayList<>(arrayList);
+            candidatesList.remove(Integer.valueOf(candidate));
+            list.add(candidate);
+            sumNum2(candidatesList, target - candidate, list, result);
+        }
+        return new ArrayList<>(result);
+    }
+
+    private void sumNum2(List<Integer> candidates, int target, List<Integer> list, Set<List<Integer>> result) {
+        if (target == 0) {
+            Collections.sort(list);
+            result.add(list);
+            return;
+        }
+        if (candidates.isEmpty() || target < candidates.get(0)) {
+            return;
+        }
+        for (int candidate : candidates) {
+            List<Integer> candidatesList = new ArrayList<>(candidates);
+            candidatesList.remove(Integer.valueOf(candidate));
+            List<Integer> newList = new ArrayList<>(list);
+            newList.add(candidate);
+            sumNum2(candidatesList, target - candidate, newList, result);
+        }
+    }
+
+    public List<List<Integer>> combinationSum3(int k, int target) {
+        Set<List<Integer>> lists = new HashSet<>();
+        int length = Math.min(target - k, 9);
+        for (int i = 1; i <= length; i++) {
+            List<Integer> list = new ArrayList<>();
+            list.add(i);
+            sumNum3(list, k - 1, target - i, lists);
+        }
+        return new ArrayList<>(lists);
+    }
+
+    private void sumNum3(List<Integer> list, int deep, int target, Set<List<Integer>> result) {
+        if (deep == 0) {
+            if (target == 0) {
+                Collections.sort(list);
+                result.add(list);
+            }
+            return;
+        }
+        int length = Math.min(target - deep + 1, 9);
+        for (int i = 1; i <= length; i++) {
+            if (list.contains(i)) {
+                continue;
+            }
+            List<Integer> newList = new ArrayList<>(list);
+            newList.add(i);
+            sumNum3(newList, deep - 1, target - i, result);
+        }
+    }
+
+    /**
+     * https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/
+     *
+     * @param root
+     * @return
+     */
+    public List<Double> averageOfLevels(TreeNode root) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        addByDeep(map, 0, root);
+        List<List<Integer>> result = new ArrayList<>(map.values());
+        return result.stream().mapToDouble(integers -> integers.stream().
+                mapToDouble(Integer::doubleValue).average().orElse(0D)).boxed().collect(Collectors.toList());
+    }
+
+
 }
