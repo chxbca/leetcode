@@ -5,21 +5,11 @@ package com.company;
  */
 public class Main {
     public static void main(String[] args) {
+        Solution.TreeNode node = new Solution.TreeNode(1);
+        node.left = new Solution.TreeNode(2);
+        node.right = new Solution.TreeNode(3);
+        node.left.right = new Solution.TreeNode(5);
         Solution solution = new Solution();
-//        char[][] chars = new char[][]{
-//                {'A', 'B', 'C', 'E'},
-//                {'S', 'F', 'C', 'S'},
-//                {'A', 'D', 'E', 'E'}
-//        };
-
-        char[][] chars =
-                {
-                        {'A', 'B', 'C', 'E'},
-                        {'S', 'F', 'E', 'S'},
-                        {'A', 'D', 'E', 'E'}
-                };
-        String word = "ABCESEEEFS";
-
-        System.out.println(solution.exist(chars, word));
+        solution.inorderTraversal(node).forEach(System.out::println);
     }
 }

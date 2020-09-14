@@ -1172,5 +1172,26 @@ class Solution {
         return result;
     }
 
+    /**
+     * https://leetcode-cn.com/problems/binary-tree-inorder-traversal/submissions/
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new LinkedList<>();
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        while (root != null || !stack.isEmpty()) {
+            if (root != null) {
+                stack.push(root);
+                root = root.left;
+            } else {
+                TreeNode pop = stack.pop();
+                result.add(pop.val);
+                root = pop.right;
+            }
+        }
+        return result;
+    }
 
 }
