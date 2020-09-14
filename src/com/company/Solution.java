@@ -1100,5 +1100,77 @@ class Solution {
                 mapToDouble(Integer::doubleValue).average().orElse(0D)).boxed().collect(Collectors.toList());
     }
 
+    /**
+     * https://leetcode-cn.com/problems/word-search/
+     *
+     * @param board
+     * @param word
+     * @return
+     */
+    public boolean exist(char[][] board, String word) {
+        char[] chars = word.toCharArray();
+        for (int i = 0; i < board.length; i++) {
+            char[] charY = board[i];
+            for (int j = 0; j < charY.length; j++) {
+                if (charY[j] == chars[0]) {
+                    boolean[][] isUsed = new boolean[board.length][charY.length];
+                    isUsed[i][j] = true;
+                    if (exist(board, chars, 1, i, j, isUsed)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean exist(char[][] board, char[] word, int wordIndex, int i, int j, boolean[][] isUsed) {
+        if (wordIndex == word.length) {
+            return true;
+        }
+        boolean up = i - 1 >= 0;
+        if (up && !isUsed[i - 1][j] && board[i - 1][j] == word[wordIndex]) {
+            boolean[][] clone = arrCopy(isUsed);
+            clone[i - 1][j] = true;
+            if (exist(board, word, wordIndex + 1, i - 1, j, clone)) {
+                return true;
+            }
+        }
+        boolean down = i + 1 < board.length;
+        if (down && !isUsed[i + 1][j] && board[i + 1][j] == word[wordIndex]) {
+            boolean[][] clone = arrCopy(isUsed);
+            clone[i + 1][j] = true;
+            if (exist(board, word, wordIndex + 1, i + 1, j, clone)) {
+                return true;
+            }
+        }
+        boolean left = j - 1 >= 0;
+        if (left && !isUsed[i][j - 1] && board[i][j - 1] == word[wordIndex]) {
+            boolean[][] clone = arrCopy(isUsed);
+            clone[i][j - 1] = true;
+            if (exist(board, word, wordIndex + 1, i, j - 1, clone)) {
+                return true;
+            }
+        }
+        boolean right = j + 1 < board[i].length;
+        if (right && !isUsed[i][j + 1] && board[i][j + 1] == word[wordIndex]) {
+            boolean[][] clone = arrCopy(isUsed);
+            clone[i][j + 1] = true;
+            if (exist(board, word, wordIndex + 1, i, j + 1, clone)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean[][] arrCopy(boolean[][] source) {
+        int length = source.length;
+        boolean[][] result = new boolean[length][];
+        for (int i = 0; i < length; i++) {
+            result[i] = source[i].clone();
+        }
+        return result;
+    }
+
 
 }
