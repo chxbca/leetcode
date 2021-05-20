@@ -1194,4 +1194,29 @@ class Solution {
         return result;
     }
 
+    /**
+     * https://leetcode-cn.com/problems/top-k-frequent-words/
+     *
+     * @param words
+     * @param k
+     * @return
+     */
+    public List<String> topKFrequent(String[] words, int k) {
+        Map<String, Integer> wordMap = new HashMap<>(words.length);
+        for (String word : words) {
+            Integer count = wordMap.computeIfAbsent(word, k1 -> 0);
+            wordMap.put(word, count + 1);
+        }
+        return wordMap.entrySet().stream().sorted((o1, o2) -> {
+            Integer count1 = o1.getValue();
+            Integer count2 = o2.getValue();
+            if (!count1.equals(count2)) {
+                return Integer.compare(count2, count1);
+            }
+            String key1 = o1.getKey();
+            String key2 = o2.getKey();
+            return key1.compareTo(key2);
+        }).limit(k).map(Map.Entry::getKey).collect(Collectors.toList());
+    }
+
 }
