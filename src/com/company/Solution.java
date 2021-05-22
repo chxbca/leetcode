@@ -1156,9 +1156,7 @@ class Solution {
         if (right && !isUsed[i][j + 1] && board[i][j + 1] == word[wordIndex]) {
             boolean[][] clone = arrCopy(isUsed);
             clone[i][j + 1] = true;
-            if (exist(board, word, wordIndex + 1, i, j + 1, clone)) {
-                return true;
-            }
+            return exist(board, word, wordIndex + 1, i, j + 1, clone);
         }
         return false;
     }
@@ -1221,15 +1219,7 @@ class Solution {
      * @return
      */
     public boolean xorGame(int[] nums) {
-        int num = 0;
-        for (int i : nums) {
-            num = num ^ i;
-        }
-        if (num == 0) {
-            return true;
-        } else {
-            return (nums.length & 1) != 1;
-        }
+        return Arrays.stream(nums).reduce(0, (a, b) -> a ^ b) == 0 || (nums.length & 1) != 1;
     }
 
 }
