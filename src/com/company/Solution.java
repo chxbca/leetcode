@@ -1214,4 +1214,22 @@ class Solution {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * https://leetcode-cn.com/problems/chalkboard-xor-game/
+     *
+     * @param nums
+     * @return
+     */
+    public boolean xorGame(int[] nums) {
+        int num = 0;
+        for (int i : nums) {
+            num = num ^ i;
+        }
+        if (num == 0) {
+            return true;
+        } else {
+            return (nums.length & 1) != 1;
+        }
+    }
+
 }
