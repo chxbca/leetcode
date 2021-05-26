@@ -1222,4 +1222,35 @@ class Solution {
         return Arrays.stream(nums).reduce(0, (a, b) -> a ^ b) == 0 || (nums.length & 1) != 1;
     }
 
+    /**
+     * https://leetcode-cn.com/problems/reverse-substrings-between-each-pair-of-parentheses/
+     *
+     * @param s
+     * @return
+     */
+    public String reverseParentheses(String s) {
+        StringBuilder stringBuilder = new StringBuilder(s);
+        LinkedList<Integer> indexStack = new LinkedList<>();
+        for (int i = 0; i < stringBuilder.length(); i++) {
+            char c = stringBuilder.charAt(i);
+            if (c == '(') {
+                indexStack.addLast(i);
+            } else if (c == ')') {
+                int left = indexStack.removeLast();
+                int right = i;
+                reverse(stringBuilder, left, right);
+            }
+        }
+        return stringBuilder.toString().replace("(", "").replace(")", "");
+    }
+
+    private void reverse(StringBuilder stringBuilder, int left, int right) {
+        while (right >= left) {
+            char leftChar = stringBuilder.charAt(left);
+            char rightChar = stringBuilder.charAt(right);
+            stringBuilder.setCharAt(left++, rightChar);
+            stringBuilder.setCharAt(right--, leftChar);
+        }
+    }
+
 }
