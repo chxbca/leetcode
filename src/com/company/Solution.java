@@ -1253,4 +1253,18 @@ class Solution {
         }
     }
 
+    /**
+     * https://leetcode-cn.com/problems/remove-linked-list-elements/
+     *
+     * @param head
+     * @param val
+     * @return
+     */
+    public ListNode removeElements(ListNode head, int val) {
+        if (head == null) {
+            return null;
+        }
+        head.next = removeElements(head.next, val);
+        return head.val == val ? head.next : head;
+    }
 }
