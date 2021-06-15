@@ -1267,4 +1267,27 @@ class Solution {
         head.next = removeElements(head.next, val);
         return head.val == val ? head.next : head;
     }
+
+    /**
+     * https://leetcode-cn.com/problems/peak-index-in-a-mountain-array/
+     *
+     * @param arr
+     * @return
+     */
+    public int peakIndexInMountainArray(int[] arr) {
+        int left = 0, right = arr.length;
+        while (true) {
+            int index = (left + right) / 2;
+            if (arr[index] > arr[index - 1] && arr[index] > arr[index + 1]) {
+                return index;
+            }
+            if (arr[index] < arr[index - 1]) {
+                right = index;
+            }
+            if (arr[index] < arr[index + 1]) {
+                left = index;
+            }
+        }
+    }
+
 }
