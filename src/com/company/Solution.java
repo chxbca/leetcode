@@ -1308,19 +1308,33 @@ class Solution {
      * @return
      */
     public int[] relativeSortArray(int[] arr1, int[] arr2) {
-        Map<Integer, Integer> numberMap = IntStream.range(0, arr2.length).boxed()
-                .collect(Collectors.toMap(index -> arr2[index], index -> index, (a, b) -> b));
-        return Arrays.stream(arr1).boxed().sorted(
-                (i1, i2) -> {
-                    Integer i1Index = numberMap.getOrDefault(i1, Integer.MAX_VALUE);
-                    Integer i2Index = numberMap.getOrDefault(i2, Integer.MAX_VALUE);
-                    if (i1Index == Integer.MAX_VALUE && i2Index == Integer.MAX_VALUE) {
-                        return Integer.compare(i1, i2);
-                    } else {
-                        return Integer.compare(i1Index, i2Index);
-                    }
-                }
-        ).mapToInt(Integer::intValue).toArray();
+        Map<Integer, Integer> numberMap = new HashMap<>();
+        for (int i : arr2) {
+            numberMap.put(i, 0);
+        }
+        LinkedList<Integer> resultNum = new LinkedList<>();
+        for (int i : arr1) {
+            Integer count = numberMap.get(i);
+            if (count != null) {
+                numberMap.put(i, count + 1);
+            } else {
+                resultNum.add(i);
+            }
+        }
+        Collections.sort(resultNum);
+        for (int i = arr2.length - 1; i >= 0; i--) {
+            int num = arr2[i];
+            int count = numberMap.get(num);
+            for (int j = 0; j < count; j++) {
+                resultNum.addFirst(num);
+            }
+        }
+        int index = 0;
+        int[] resultArray = new int[arr1.length];
+        for (Integer num : resultNum) {
+            resultArray[index++] = num;
+        }
+        return resultArray;
     }
 
 }
