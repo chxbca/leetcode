@@ -1300,4 +1300,27 @@ class Solution {
         return true;
     }
 
+    /**
+     * https://leetcode-cn.com/problems/relative-sort-array/
+     *
+     * @param arr1
+     * @param arr2
+     * @return
+     */
+    public int[] relativeSortArray(int[] arr1, int[] arr2) {
+        Map<Integer, Integer> numberMap = IntStream.range(0, arr2.length).boxed()
+                .collect(Collectors.toMap(index -> arr2[index], index -> index, (a, b) -> b));
+        return Arrays.stream(arr1).boxed().sorted(
+                (i1, i2) -> {
+                    Integer i1Index = numberMap.getOrDefault(i1, Integer.MAX_VALUE);
+                    Integer i2Index = numberMap.getOrDefault(i2, Integer.MAX_VALUE);
+                    if (i1Index == Integer.MAX_VALUE && i2Index == Integer.MAX_VALUE) {
+                        return Integer.compare(i1, i2);
+                    } else {
+                        return Integer.compare(i1Index, i2Index);
+                    }
+                }
+        ).mapToInt(Integer::intValue).toArray();
+    }
+
 }
