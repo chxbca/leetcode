@@ -1290,4 +1290,14 @@ class Solution {
         }
     }
 
+    /**
+     * https://leetcode-cn.com/problems/stone-game/
+     *
+     * @param piles
+     * @return
+     */
+    public boolean stoneGame(int[] piles) {
+        return true;
+    }
+
 }
