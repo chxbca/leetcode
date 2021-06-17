@@ -1337,4 +1337,26 @@ class Solution {
         return resultArray;
     }
 
+    /**
+     * https://leetcode-cn.com/problems/valid-number/
+     *
+     * @param s
+     * @return
+     */
+    public boolean isNumber(String s) {
+        try {
+            if (s.contains("Infinity")) {
+                return false;
+            }
+            s = s.replace('f', 'z')
+                    .replace('F', 'z')
+                    .replace('d', 'z')
+                    .replace('D', 'z');
+            Double.parseDouble(s);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
