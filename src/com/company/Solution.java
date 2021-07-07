@@ -1415,16 +1415,11 @@ class Solution {
         int[] deliciousCountArray = new int[maxDelicious - minDelicious + 1];
         long result = 0;
         for (int deliciousnessValue : deliciousness) {
-            for (int binary = 1; ; binary <<= 1) {
-                int needDelicious = binary - deliciousnessValue;
-                if (needDelicious < minDelicious) {
-                    continue;
+            for (int binary = 1, needDelicious; (needDelicious = binary - deliciousnessValue) <= maxDelicious; binary <<= 1) {
+                if (needDelicious >= minDelicious) {
+                    int needDeliciousIndex = needDelicious - minDelicious;
+                    result += deliciousCountArray[needDeliciousIndex];
                 }
-                if (needDelicious > maxDelicious) {
-                    break;
-                }
-                int needDeliciousIndex = needDelicious - minDelicious;
-                result += deliciousCountArray[needDeliciousIndex];
             }
             int deliciousnessValueIndex = deliciousnessValue - minDelicious;
             deliciousCountArray[deliciousnessValueIndex]++;
