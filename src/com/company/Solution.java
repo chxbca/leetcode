@@ -1403,37 +1403,33 @@ class Solution {
      * @return
      */
     public int countPairs(int[] deliciousness) {
-        final int mod = 1000000007;
-        Map<Integer, Long> deliciousMap = new HashMap<>(deliciousness.length);
-        int maxDelicious = deliciousness[0], minDelicious = deliciousness[0];
-        for (int delicious : deliciousness) {
-            deliciousMap.merge(delicious, 1L, Long::sum);
-            maxDelicious = Math.max(maxDelicious, delicious);
-            minDelicious = Math.min(minDelicious, delicious);
-        }
-        long result = 0;
-        for (Map.Entry<Integer, Long> entry : deliciousMap.entrySet()) {
-            Integer delicious = entry.getKey();
-            Long count = entry.getValue();
-            for (int sum = 1; ; sum <<= 1) {
-                int another = sum - delicious;
-                if (another < minDelicious) {
-                    continue;
-                }
-                if (another > maxDelicious) {
-                    break;
-                }
-                if (another >= delicious) {
-                    Long anotherCount = deliciousMap.getOrDefault(another, 0L);
-                    if (another == delicious && count > 1) {
-                        result += (count * (count - 1) / 2);
-                    } else if (another != delicious) {
-                        result += count * anotherCount;
-                    }
-                }
+        int minDelicious, maxDelicious;
+        minDelicious = maxDelicious = deliciousness[0];
+        for (int deliciousnessValue : deliciousness) {
+            if (deliciousnessValue < minDelicious) {
+                minDelicious = deliciousnessValue;
+            } else if (deliciousnessValue > maxDelicious) {
+                maxDelicious = deliciousnessValue;
             }
         }
-        return (int) (result % mod);
+        int[] deliciousCountArray = new int[maxDelicious - minDelicious + 1];
+        long result = 0;
+        for (int deliciousnessValue : deliciousness) {
+            for (int binary = 1; ; binary <<= 1) {
+                int needDelicious = binary - deliciousnessValue;
+                if (needDelicious < minDelicious) {
+                    continue;
+                }
+                if (needDelicious > maxDelicious) {
+                    break;
+                }
+                int needDeliciousIndex = needDelicious - minDelicious;
+                result += deliciousCountArray[needDeliciousIndex];
+            }
+            int deliciousnessValueIndex = deliciousnessValue - minDelicious;
+            deliciousCountArray[deliciousnessValueIndex]++;
+        }
+        return (int) (result % 1_000_000_007L);
     }
 
 
