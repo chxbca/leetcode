@@ -1404,24 +1404,26 @@ class Solution {
      */
     public int countPairs(int[] deliciousness) {
         final int mod = 1000000007;
-        Map<Integer, Long> deliciousMap = new HashMap<>();
-        int maxDelicious = deliciousness[0];
+        Map<Integer, Long> deliciousMap = new HashMap<>(deliciousness.length);
+        int maxDelicious = deliciousness[0], minDelicious = deliciousness[0];
         for (int delicious : deliciousness) {
             deliciousMap.merge(delicious, 1L, Long::sum);
             maxDelicious = Math.max(maxDelicious, delicious);
+            minDelicious = Math.min(minDelicious, delicious);
         }
         long result = 0;
         for (Map.Entry<Integer, Long> entry : deliciousMap.entrySet()) {
             Integer delicious = entry.getKey();
             Long count = entry.getValue();
-
-            int sum = 1;
-            for (; ; ) {
+            for (int sum = 1; ; sum <<= 1) {
                 int another = sum - delicious;
+                if (another < minDelicious) {
+                    continue;
+                }
                 if (another > maxDelicious) {
                     break;
                 }
-                if (another > 0 && another >= delicious) {
+                if (another >= delicious) {
                     Long anotherCount = deliciousMap.getOrDefault(another, 0L);
                     if (another == delicious && count > 1) {
                         result += (count * (count - 1) / 2);
@@ -1429,7 +1431,6 @@ class Solution {
                         result += count * anotherCount;
                     }
                 }
-                sum <<= 1;
             }
         }
         return (int) (result % mod);
