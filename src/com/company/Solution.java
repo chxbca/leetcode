@@ -1359,4 +1359,41 @@ class Solution {
         }
     }
 
+    /**
+     * https://leetcode-cn.com/problems/display-table-of-food-orders-in-a-restaurant/
+     *
+     * @param orders
+     * @return
+     */
+    public List<List<String>> displayTable(List<List<String>> orders) {
+        TreeSet<String> tableNameSet = new TreeSet<>();
+        Map<Integer, TreeMap<String, Integer>> tableMenuMap = new TreeMap<>();
+        for (List<String> order : orders) {
+            Integer tableNum = Integer.valueOf(order.get(1));
+            String foodItem = order.get(2);
+            tableNameSet.add(foodItem);
+
+            TreeMap<String, Integer> tableMap = tableMenuMap.computeIfAbsent(tableNum, k -> new TreeMap<>());
+            Integer count = tableMap.getOrDefault(foodItem, 0);
+            tableMap.put(foodItem, count + 1);
+        }
+        List<List<String>> result = new ArrayList<>(tableMenuMap.size() + 1);
+        List<String> tableMenu = new ArrayList<>(tableNameSet.size() + 1);
+        tableMenu.add("Table");
+        tableMenu.addAll(tableNameSet);
+        result.add(tableMenu);
+        for (var tableData : tableMenuMap.entrySet()) {
+            List<String> menu = new ArrayList<>();
+            menu.add(String.valueOf(tableData.getKey()));
+            TreeMap<String, Integer> foodItemMap = tableData.getValue();
+            for (String tableName : tableNameSet) {
+                Integer foodItemNumber = foodItemMap.getOrDefault(tableName, 0);
+                menu.add(String.valueOf(foodItemNumber));
+            }
+            result.add(menu);
+        }
+        return result;
+    }
+
+
 }
