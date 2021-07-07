@@ -1396,4 +1396,44 @@ class Solution {
     }
 
 
+    /**
+     * https://leetcode-cn.com/problems/count-good-meals/
+     *
+     * @param deliciousness
+     * @return
+     */
+    public int countPairs(int[] deliciousness) {
+        final int mod = 1000000007;
+        Map<Integer, Long> deliciousMap = new HashMap<>();
+        int maxDelicious = deliciousness[0];
+        for (int delicious : deliciousness) {
+            deliciousMap.merge(delicious, 1L, Long::sum);
+            maxDelicious = Math.max(maxDelicious, delicious);
+        }
+        long result = 0;
+        for (Map.Entry<Integer, Long> entry : deliciousMap.entrySet()) {
+            Integer delicious = entry.getKey();
+            Long count = entry.getValue();
+
+            int sum = 1;
+            for (; ; ) {
+                int another = sum - delicious;
+                if (another > maxDelicious) {
+                    break;
+                }
+                if (another > 0 && another >= delicious) {
+                    Long anotherCount = deliciousMap.getOrDefault(another, 0L);
+                    if (another == delicious && count > 1) {
+                        result += (count * (count - 1) / 2);
+                    } else if (another != delicious) {
+                        result += count * anotherCount;
+                    }
+                }
+                sum <<= 1;
+            }
+        }
+        return (int) (result % mod);
+    }
+
+
 }
