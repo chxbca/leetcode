@@ -1427,5 +1427,65 @@ class Solution {
         return (int) (result % 1_000_000_007L);
     }
 
+    /**
+     * https://leetcode-cn.com/problems/binary-subarrays-with-sum/
+     *
+     * @param nums
+     * @param goal
+     * @return
+     */
+    public int numSubarraysWithSum(int[] nums, int goal) {
+        int[] oneIndex = new int[nums.length];
+        int count = 0;
+        for (int i = 0, numsLength = nums.length; i < numsLength; i++) {
+            if (nums[i] == 1) {
+                oneIndex[count++] = i;
+            }
+        }
+        if (count < goal) {
+            return 0;
+        }
+        int arraySum = 0;
+        if (goal == 0) {
+            if (count == 0) {
+                for (int i = 1; i <= nums.length; i++) {
+                    arraySum += i;
+                }
+                return arraySum;
+            }
+            for (int index = 0; index < count; index++) {
+                int zeroSum = getLeftZero(oneIndex, index);
+                for (int i = 1; i <= zeroSum; i++) {
+                    arraySum += i;
+                }
+            }
+            int zeroSum = getRightZero(oneIndex, count - 1, count);
+            for (int i = 1; i <= zeroSum; i++) {
+                arraySum += i;
+            }
+            return arraySum;
+        }
+        for (int leftIndex = 0, rightIndex; (rightIndex = (leftIndex + goal - 1)) < count; leftIndex++) {
+            int leftZero = getLeftZero(oneIndex, leftIndex);
+            int rightZero = getRightZero(oneIndex, rightIndex, count);
+            arraySum += (leftZero + 1) * (rightZero + 1);
+        }
+        return arraySum;
+    }
+
+    private int getRightZero(int[] oneIndex, int rightIndex, int length) {
+        if (rightIndex == length - 1) {
+            return oneIndex.length - oneIndex[rightIndex] - 1;
+        }
+        return oneIndex[rightIndex + 1] - oneIndex[rightIndex] - 1;
+    }
+
+    private int getLeftZero(int[] oneIndex, int leftIndex) {
+        if (leftIndex == 0) {
+            return oneIndex[leftIndex];
+        }
+        return oneIndex[leftIndex] - oneIndex[leftIndex - 1] - 1;
+    }
+
 
 }
