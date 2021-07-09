@@ -1487,5 +1487,33 @@ class Solution {
         return oneIndex[leftIndex] - oneIndex[leftIndex - 1] - 1;
     }
 
+    /**
+     * https://leetcode-cn.com/problems/find-majority-element-lcci/
+     *
+     * @param nums
+     * @return
+     */
+    public int majorityElement(int[] nums) {
+        int pre = -1, count = 0;
+        for (int num : nums) {
+            if (count != 0) {
+                if (pre == num) {
+                    count++;
+                } else {
+                    count--;
+                }
+            } else {
+                pre = num;
+                count++;
+            }
+        }
+        count = 0;
+        for (int num : nums) {
+            if (pre == num) {
+                count++;
+            }
+        }
+        return count > nums.length / 2 ? pre : -1;
+    }
 
 }
